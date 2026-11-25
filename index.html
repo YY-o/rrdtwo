@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#eaf5ff" />
+<title>对你担容忍度测试 2.0 PLUS</title>
+<style>
+:root{
+  --ink:#315875; --muted:#6e91ad; --blue:#66afe9; --blue2:#8bc9f4;
+  --line:#d4eaff; --paper:rgba(255,255,255,.88); --pale:#f4faff;
+  --shadow:0 18px 45px rgba(102,164,211,.16);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{min-height:100%;background:#eef7ff}
+body{
+  min-height:100vh;padding:22px 15px 38px;color:var(--ink);
+  font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  background:
+    radial-gradient(circle at 8% 8%,rgba(177,221,255,.7),transparent 28%),
+    radial-gradient(circle at 94% 20%,rgba(210,235,255,.9),transparent 27%),
+    radial-gradient(circle at 12% 85%,rgba(195,228,255,.65),transparent 28%),
+    linear-gradient(145deg,#f8fcff,#edf7ff 55%,#f8fbff);
+  overflow-x:hidden;
+}
+body:before,body:after{content:"";position:fixed;pointer-events:none;z-index:0;border-radius:50%;filter:blur(1px)}
+body:before{width:180px;height:180px;right:-85px;top:35%;background:rgba(179,220,255,.22)}
+body:after{width:150px;height:150px;left:-80px;bottom:8%;background:rgba(203,232,255,.35)}
+#app{width:100%;max-width:480px;margin:0 auto;position:relative;z-index:1}
+.brand{display:flex;align-items:center;justify-content:space-between;margin:0 5px 14px;color:#6c98bb;font-size:11px;letter-spacing:2px;font-weight:700}
+.brand .tag{padding:6px 10px;border:1px solid rgba(155,199,235,.55);border-radius:99px;background:rgba(255,255,255,.55);letter-spacing:1px}
+.page{display:none;animation:rise .38s ease both}
+.page.active{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.panel{position:relative;overflow:hidden;background:var(--paper);border:1px solid rgba(181,216,246,.8);border-radius:29px;box-shadow:var(--shadow);backdrop-filter:blur(12px)}
+.start-panel{text-align:center;padding:34px 25px 27px}
+.start-panel:before{content:"";position:absolute;width:210px;height:210px;right:-95px;top:-95px;border-radius:50%;background:linear-gradient(135deg,rgba(174,220,255,.36),rgba(226,243,255,.08));}
+.start-panel:after{content:"";position:absolute;width:170px;height:170px;left:-90px;bottom:-100px;border-radius:50%;background:rgba(204,232,255,.3)}
+.kicker{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:99px;background:#edf7ff;border:1px solid #d5eaff;color:#5f94bd;font-size:11px;letter-spacing:1px;position:relative;z-index:1}
+.sparkle{color:#70b6ed;font-size:15px}
+.hero-icon{width:94px;height:94px;margin:20px auto 13px;border-radius:29px;display:grid;place-items:center;background:linear-gradient(145deg,#e9f6ff,#cce8ff);box-shadow:inset 0 2px 7px #fff,0 12px 25px rgba(113,177,225,.18);font-size:43px;transform:rotate(-5deg);position:relative;z-index:1}
+h1{font-size:27px;line-height:1.35;letter-spacing:1px;color:#315d80;font-weight:800;position:relative;z-index:1}
+.subtitle{font-size:12px;color:#6995b7;letter-spacing:1.5px;margin-top:8px;position:relative;z-index:1}
+.divider{display:flex;align-items:center;justify-content:center;gap:8px;margin:20px auto 18px}
+.divider span{width:6px;height:6px;border-radius:50%;background:#9bcdf3}
+.divider i{width:42px;height:1px;background:linear-gradient(90deg,transparent,#b8dcf7,transparent)}
+.intro{font-size:14px;line-height:1.95;color:#557d9d;position:relative;z-index:1}
+.intro strong{color:#3979a8;font-weight:700}
+.feature-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:22px 0 20px;position:relative;z-index:1}
+.feature{padding:11px 5px 10px;background:rgba(239,248,255,.9);border:1px solid #dfedfa;border-radius:15px}
+.feature b{display:block;font-size:17px;color:#4d9bd3;margin-bottom:3px}
+.feature small{font-size:10px;color:#7398b5}
+.btn{border:0;border-radius:16px;min-height:49px;padding:13px 16px;font:600 15px inherit;cursor:pointer;transition:transform .16s,filter .16s,box-shadow .16s}
+.btn:active{transform:scale(.98)}
+.btn.primary{width:100%;color:white;background:linear-gradient(110deg,#83c4f2,#55a6e5);box-shadow:0 10px 22px rgba(92,166,224,.28)}
+.btn.secondary{background:#edf7ff;border:1px solid #cfe6fa;color:#5a8bb2}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.start-note{font-size:10px;color:#91abc0;margin-top:13px;position:relative;z-index:1}
+.question-panel{padding:22px 19px 19px}
+.q-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.q-counter{font-size:12px;color:#638bab;font-weight:700;letter-spacing:.5px}
+.q-chip{font-size:10px;padding:6px 9px;border-radius:99px;background:#eef7ff;color:#6b9dc2;border:1px solid #dceeff}
+.progress-track{height:8px;border-radius:99px;background:#e5f2fd;overflow:hidden;margin-bottom:22px}
+.progress-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#a8d8fb,#5ba9e7);transition:width .3s}
+.question-label{font-size:10px;color:#82a9c7;letter-spacing:2px;margin-bottom:9px}
+.q-title{font-size:18px;line-height:1.72;color:#315875;font-weight:700;margin-bottom:20px;letter-spacing:.1px}
+.option-list{display:grid;gap:10px}
+.opt-item{position:relative;display:flex;align-items:flex-start;gap:11px;width:100%;text-align:left;padding:14px 13px;border:1px solid #d6eafb;border-radius:17px;background:linear-gradient(135deg,#fbfdff,#f2f8ff);color:#456d8c;font:400 14px/1.65 inherit;cursor:pointer;transition:.18s}
+.opt-item:hover{border-color:#9ecdf0;background:#f0f8ff}
+.opt-item.selected{border:1.5px solid #69b1e9;background:linear-gradient(135deg,#e8f5ff,#d9eeff);box-shadow:0 5px 14px rgba(111,177,224,.13);color:#2e6e9d}
+.opt-letter{flex:0 0 25px;width:25px;height:25px;display:grid;place-items:center;border-radius:9px;background:#e4f1fc;color:#6b9fc6;font-size:11px;font-weight:800}
+.opt-item.selected .opt-letter{background:#70b7eb;color:white}
+.opt-check{margin-left:auto;flex:0 0 18px;width:18px;height:18px;border-radius:50%;border:1px solid #b8d7ef;color:white;font-size:11px;display:grid;place-items:center}
+.opt-item.selected .opt-check{background:#65afe8;border-color:#65afe8}
+.nav-btns{display:grid;grid-template-columns:.85fr 1.15fr;gap:10px;margin-top:20px}
+.nav-btns .btn{min-height:47px}
+.tip{font-size:10px;text-align:center;color:#9ab2c6;margin-top:13px}
+.result-panel{padding:28px 22px 22px;text-align:center}
+.result-eyebrow{font-size:11px;letter-spacing:2px;color:#7ca8c8}
+.result-medal{width:75px;height:75px;margin:14px auto;border-radius:25px;display:grid;place-items:center;background:linear-gradient(145deg,#eaf7ff,#cde9ff);font-size:34px;box-shadow:0 8px 22px rgba(109,175,225,.2)}
+.result-title{font-size:23px;line-height:1.4;color:#315d80;font-weight:800;margin:7px 0 12px}
+.result-score{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:99px;background:#eaf6ff;color:#4d91c3;border:1px solid #d4eafb;font-size:12px;margin-bottom:18px}
+.score-track{height:9px;border-radius:99px;background:#e7f2fb;overflow:hidden;margin:0 3px 7px}
+.score-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#b4dcf8,#5aa8e6)}
+.score-caption{display:flex;justify-content:space-between;font-size:10px;color:#91abc0;margin-bottom:20px}
+.result-desc{text-align:left;padding:16px 16px;background:#f4faff;border:1px solid #e0effb;border-radius:18px;color:#557b99;font-size:13px;line-height:1.9;margin-bottom:18px}
+.result-desc:before{content:"✦ 你的担粉画像";display:block;color:#5797c5;font-weight:700;margin-bottom:7px}
+.profile-title{text-align:left;font-size:12px;color:#5797c5;font-weight:800;margin:0 2px 10px}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0 0 17px}
+.profile-item{padding:11px 12px;border-radius:14px;background:#f5faff;border:1px solid #e0effb;text-align:left}
+.profile-head{display:flex;justify-content:space-between;gap:6px;font-size:11px;color:#557b99;margin-bottom:8px}
+.profile-head b{color:#397eae;font-size:12px}
+.mini-track{height:6px;background:#e4f0fa;border-radius:99px;overflow:hidden}
+.mini-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#b8def8,#5aa8e6)}
+.result-insight{text-align:left;padding:14px 15px;margin-bottom:17px;border-radius:16px;background:linear-gradient(135deg,#edf7ff,#f8fbff);border:1px solid #dcecf9;color:#5a7e9a;font-size:12px;line-height:1.85}
+.result-insight b{color:#3979a8}
+.result-actions{display:grid;gap:10px}
+.result-foot{font-size:10px;color:#9ab2c6;margin-top:14px}
+.toast{position:fixed;left:50%;bottom:calc(25px + env(safe-area-inset-bottom));transform:translate(-50%,12px);background:rgba(49,88,117,.94);color:white;padding:10px 16px;border-radius:99px;font-size:12px;opacity:0;pointer-events:none;transition:.22s;z-index:10;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:520px){body{padding-top:34px}.start-panel{padding:42px 32px 30px}.question-panel{padding:28px 25px 23px}.q-title{font-size:19px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="brand"><span>TAMI · QUIZ STUDIO</span><span class="tag">FANDOM TEST 2.0 PLUS</span></div>
+
+  <section class="page active" id="page-start">
+    <div class="panel start-panel">
+      <div class="kicker"><span class="sparkle">✦</span> 一份关于喜欢与边界的小测验 <span class="sparkle">✦</span></div>
+      <div class="hero-icon">🫧</div>
+      <h1>对你担容忍度测试</h1>
+      <div class="subtitle">2.0 PLUS · 只围绕你本人和你的担</div>
+      <div class="divider"><i></i><span></span><span></span><span></span><i></i></div>
+      <p class="intro">
+        这里没有粉丝互撕，没有路人眼光，也没有复杂人际关系。<br>
+        每一题都只问你：面对你担本人的选择、短板、情绪和规划，<br>
+        <strong>你的真实底线到底在哪里？</strong>
+      </p>
+      <div class="feature-row">
+        <div class="feature"><b>15</b><small>道情景题</small></div>
+        <div class="feature"><b>5档</b><small>结果类型</small></div>
+        <div class="feature"><b>PLUS</b><small>进阶版本</small></div>
+      </div>
+      <button class="btn primary" id="startBtn">开始测试　→</button>
+      <div class="start-note">凭第一反应作答，没有标准答案</div>
+    </div>
+  </section>
+
+  <section class="page" id="page-question">
+    <div class="panel question-panel">
+      <div class="q-top"><div class="q-counter" id="qIndex">第 1 / 15 题</div><div class="q-chip">✦ 真实想法优先</div></div>
+      <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+      <div class="question-label">QUESTION · <span id="qNumber">01</span></div>
+      <div class="q-title" id="qTitle"></div>
+      <div class="option-list" id="optBox"></div>
+      <div class="nav-btns">
+        <button class="btn secondary" id="prevBtn">← 上一题</button>
+        <button class="btn primary" id="nextBtn">下一题 →</button>
+      </div>
+      <div class="tip">选择最接近你真实反应的选项即可</div>
+    </div>
+  </section>
+
+  <section class="page" id="page-result">
+    <div class="panel result-panel">
+      <div class="result-eyebrow">YOUR FANDOM PROFILE · TAMI</div>
+      <div class="result-medal">✧</div>
+      <div class="result-title" id="resTitle"></div>
+      <div class="result-score" id="resScore"></div>
+      <div class="score-track"><div class="score-fill" id="scoreFill"></div></div>
+      <div class="score-caption"><span>情绪滤镜较厚</span><span>边界感更清晰</span></div>
+      <div class="result-desc" id="resDesc"></div>
+      <div class="profile-title">✦ 你的15题反应倾向</div>
+      <div class="profile-grid" id="profileGrid"></div>
+      <div class="result-insight" id="resultInsight"></div>
+      <div class="result-actions">
+        <button class="btn primary" id="copyBtn">复制我的测试结果</button>
+        <button class="btn secondary" id="restartBtn">重新测一次</button>
+      </div>
+      <div class="result-foot">结果仅供娱乐与自我观察，不代表真实人格诊断</div>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast">已复制</div>
+
+<script>
+const qList = [
+  {q:"你担在采访里主动说了一段自己的想法，本意不坏，但观点和你长久以来的价值观相悖，你会？",opt:[
+    {txt:"帮他找补，他只是表达不好，不是这个意思",score:0},
+    {txt:"心里别扭，但还是选择尊重，不深挖",score:2},
+    {txt:"认真琢磨这件事，这个点会悄悄降低好感",score:1},
+    {txt:"分开看待：欣赏他的闪光点，也承认这里合不来",score:3}]},
+  {q:"你担拿到一个很好的资源，但为了拿下这个机会，需要配合一些你不认可的营销套路，他选择配合了，你？",opt:[
+    {txt:"资源最重要，为了发展可以理解",score:2},
+    {txt:"有点失望，觉得他不该妥协至此",score:1},
+    {txt:"他有自己的考量，我无条件支持",score:0},
+    {txt:"作品单独看，这件事本身我保留看法",score:3}]},
+  {q:"这次舞台/表演，你担明显偷懒划水，状态散漫，没有伤病、行程超负荷这类合理借口，你？",opt:[
+    {txt:"帮他找隐性理由，不许别人指责他",score:0},
+    {txt:"挺失望的，期待值往下调一等",score:1},
+    {txt:"人总有松懈的时候，这次不代表全部",score:2},
+    {txt:"直接承认这次发挥不行，不强行美化",score:3}]},
+  {q:"你担私下性格慢慢暴露，你发现他骨子里是利己主义，优先保全自己，你？",opt:[
+    {txt:"利己是生存本能，完全接受",score:2},
+    {txt:"有点幻灭，理想中的他不是这样",score:1},
+    {txt:"这是成熟，他本来就不需要当圣人",score:3},
+    {txt:"不能接受，开始疯狂说服自己他不是",score:0}]},
+  {q:"你担审美大变，持续接你完全吃不下的造型、风格，并且他自己很喜欢、很享受，你？",opt:[
+    {txt:"他开心最重要，我跟着慢慢适应",score:2},
+    {txt:"尊重他的喜好，但这类物料我少看",score:3},
+    {txt:"很难接受，期待他换回以前的风格",score:1},
+    {txt:"到处说造型不好，希望他换掉",score:0}]},
+  {q:"你担被扒出多年前的旧行为，放在当年不算违规，但放到现在的标准里争议很大，你？",opt:[
+    {txt:"时代不一样，不该拿现在的标准审判过去",score:2},
+    {txt:"客观审视这件事，判断能不能过自己的底线",score:3},
+    {txt:"直接认定是扒黑料，恶意挖旧账",score:0},
+    {txt:"心里膈应，好感蒙上一层阴影",score:1}]},
+  {q:"你担采访里回避尖锐问题，刻意打太极、说场面空话，没有真诚回应，你？",opt:[
+    {txt:"身不由己，很多话本来就不能直说",score:2},
+    {txt:"有点失落，期待过他更直白真诚",score:1},
+    {txt:"圆滑是保护自己，完全理解",score:3},
+    {txt:"他一定有苦衷，不能质疑他",score:0}]},
+  {q:"你担事业稳步上升之后，明显减少了营业，不再愿意分享日常，和粉丝拉开距离，你？",opt:[
+    {txt:"红了重心变了，我尊重他的边界",score:3},
+    {txt:"有点失落，怀念以前愿意分享的时候",score:1},
+    {txt:"他忙，我耐心等着他偶尔露面",score:2},
+    {txt:"觉得他飘了，心里开始不满",score:0}]},
+  {q:"你担和你很排斥的一类人交好、来往密切，他清楚外界对这个人的评价，依旧选择来往，你？",opt:[
+    {txt:"交友是他的自由，我不干涉",score:3},
+    {txt:"心里不舒服，但不会去要求他断联",score:1},
+    {txt:"他看人有自己的判断，我选择相信他",score:2},
+    {txt:"疯狂反感，希望他立刻远离对方",score:0}]},
+  {q:"你担犯了一个不算原则性大错，但确实是他本人考虑不周造成的失误，他没有主动道歉，只是冷处理，你？",opt:[
+    {txt:"不是大错，冷处理也没问题",score:2},
+    {txt:"觉得该有一句道歉，有点遗憾",score:1},
+    {txt:"他有自己的考量，不用按大家期待做事",score:3},
+    {txt:"错不在他，都是别人揪着不放",score:0}]},
+  {q:"你担的实力一直有短板，很久过去了，能看出他没有花心思去补齐这块短板，你？",opt:[
+    {txt:"人不可能面面俱到，短板可以接受",score:2},
+    {txt:"有点失望，期待他愿意精进自己",score:1},
+    {txt:"这是他的选择，我只欣赏他擅长的部分",score:3},
+    {txt:"短板都是别人刻意放大的，其实根本不算事",score:0}]},
+  {q:"你担为了话题度，主动参与一些博眼球、比较浮夸的综艺剧本，你？",opt:[
+    {txt:"工作需要，综艺效果而已，不必当真",score:2},
+    {txt:"不太喜欢这种方式，会少看这段内容",score:3},
+    {txt:"觉得这样掉价，好感下降",score:1},
+    {txt:"这是聪明，懂得抓住流量机会",score:0}]},
+  {q:"你担表达喜好时，明确拒绝了你很喜欢的东西，甚至直白说出不喜欢，你？",opt:[
+    {txt:"喜好本就不同，互不影响",score:3},
+    {txt:"有点小难过，但不会怪他",score:1},
+    {txt:"记住他的偏好，以后不在这方面期待",score:2},
+    {txt:"不能接受，觉得他不该这样说",score:0}]},
+  {q:"你担状态很好的时候闪闪发光，但情绪低谷期会流露比较消极、负能量的想法，你？",opt:[
+    {txt:"他也是普通人，允许有负面情绪",score:2},
+    {txt:"看着会难受，担心他，也会被影响",score:1},
+    {txt:"接纳完整的他，高光和低谷都算",score:3},
+    {txt:"公众人物不该传递消极情绪",score:0}]},
+  {q:"你担未来规划和你期待的完全不一样，他选择了你不看好的路线发展，你？",opt:[
+    {txt:"路是他自己的，跟着他的节奏走",score:2},
+    {txt:"有点遗憾，原本期待他走另一条路",score:1},
+    {txt:"选择权在他，好看就看，不合就淡",score:3},
+    {txt:"觉得他选错了，替他着急",score:0}]}
+];
+
+const resultList = [
+  {min:0,max:8,title:"滤镜护航型·本命优先",desc:"你的第一反应往往是先站在他这边。遇到争议时，你更容易替他寻找背景和理由，也不太愿意让单次表现影响长期喜欢。你的偏爱很坚定，但要留意：理解不等于替所有行为免责，喜欢也不必以压下自己的真实感受为代价。",advice:"给自己留一条明确底线：可以偏爱，可以理解，但不必替他承担选择的后果。"},
+  {min:9,max:17,title:"共情心软型·容易被牵动",desc:"你很容易代入他的处境，也会认真感受他的状态。你不是完全没有判断，只是情绪常常先一步到场：失望会记很久，闪光点也能迅速把你哄好。追星体验丰富，但偶尔容易因为他的动态影响自己的心情。",advice:"把“我理解他”与“我认可这件事”分开。允许自己失望，不代表你不喜欢他。"},
+  {min:18,max:26,title:"拉扯观察型·喜欢与介意并存",desc:"你既有偏爱，也有自己的判断标准。遇到不同情境，你会在理解、失望和尊重之间来回切换。你不太会彻底替他开脱，也不急着因为一个问题全盘否定。你的真实状态可能就是：喜欢是真的，介意也是真的。",advice:"不必强迫自己得出统一结论。不同事情可以有不同答案，喜欢也可以有保留。"},
+  {min:27,max:35,title:"清醒包容型·欣赏但不盲从",desc:"你能够把他当作独立的人看待。你可以欣赏他的优点，也能承认短板、选择和你不一致；不喜欢的内容可以少看，不认同的事情也不必强行找补。你的喜欢有弹性，不需要靠全盘认同来维持。",advice:"继续保留自己的判断，同时给彼此留出空间：他的路由他走，你的感受也值得被尊重。"},
+  {min:36,max:45,title:"松弛边界型·自带抽离感",desc:"你对他的期待相对松弛，不太会把自己的喜好投射成他的义务。你能接受人有局限，也能在不合适时主动减少关注。你不是没有偏爱，而是不容易让偏爱接管判断和生活。",advice:"保持这种松弛感即可，也别把“足够清醒”变成新的自我要求。喜欢本来就可以轻松一点。"}
+];
+
+let current=0;
+const answers=new Array(qList.length).fill(null);
+const $=id=>document.getElementById(id);
+function switchPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));$(id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
+function renderQuestion(){
+  const item=qList[current];
+  $("qIndex").textContent=`第 ${current+1} / ${qList.length} 题`;
+  $("qNumber").textContent=String(current+1).padStart(2,"0");
+  $("qTitle").textContent=item.q;
+  $("progress").style.width=((current+1)/qList.length*100)+"%";
+  $("optBox").innerHTML="";
+  item.opt.forEach((o,i)=>{
+    const el=document.createElement("button");
+    el.type="button";el.className="opt-item"+(answers[current]===i?" selected":"");
+    const letter=document.createElement("span");letter.className="opt-letter";letter.textContent=""+String.fromCharCode(65+i);
+    const text=document.createElement("span");text.textContent=o.txt;
+    const check=document.createElement("span");check.className="opt-check";check.textContent=answers[current]===i?"✓":"";
+    el.append(letter,text,check);
+    el.addEventListener("click",()=>{answers[current]=i;renderQuestion();});
+    $("optBox").appendChild(el);
+  });
+  $("prevBtn").disabled=current===0;
+  $("nextBtn").textContent=current===qList.length-1?"查看我的结果 →":"下一题 →";
+}
+function calculateScore(){return answers.reduce((sum,a,i)=>sum+(a===null?0:qList[i].opt[a].score),0);}
+function showResult(){
+  const score=calculateScore();
+  const res=resultList.find(r=>score>=r.min&&score<=r.max)||resultList[resultList.length-1];
+  const counts=[0,0,0,0];
+  answers.forEach((a,i)=>{if(a!==null){const value=qList[i].opt[a].score;counts[value]++;}});
+  const labels=["滤镜维护","情绪介入","理解包容","边界清醒"];
+  const descriptions=["先维护、先找理由","容易失望，也容易心软","倾向理解具体处境","尊重差异，保留判断"];
+  $("resTitle").textContent=res.title;
+  $("resScore").textContent=`清醒边界指数 ${score} / 45 · ${res.min}—${res.max} 分区间`;
+  $("resDesc").textContent=res.desc;
+  $("scoreFill").style.width=(score/45*100)+"%";
+  $("profileGrid").innerHTML=counts.map((n,i)=>`<div class="profile-item"><div class="profile-head"><span>${labels[i]}</span><b>${n}题</b></div><div class="mini-track"><div class="mini-fill" style="width:${n/15*100}%"></div></div><div style="font-size:10px;color:#91abc0;margin-top:6px">${descriptions[i]}</div></div>`).join("");
+  const maxCount=Math.max(...counts);
+  const dominant=counts.indexOf(maxCount);
+  $("resultInsight").innerHTML=`<b>你的主要反应倾向：${labels[dominant]}</b><br>${descriptions[dominant]}。这部分统计的是你在15道情境题中的选项分布；如果有并列，说明你会根据具体情境切换反应方式。<br><br><b>给你的提醒：</b>${res.advice}`;
+  switchPage("page-result");
+}
+function toast(msg){$("toast").textContent=msg;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),1500);}
+$("startBtn").onclick=()=>{current=0;answers.fill(null);renderQuestion();switchPage("page-question");};
+$("prevBtn").onclick=()=>{if(current>0){current--;renderQuestion();}};
+$("nextBtn").onclick=()=>{
+  if(answers[current]===null){toast("先选一个最接近你真实想法的选项");return;}
+  if(current<qList.length-1){current++;renderQuestion();}else if(answers.every(a=>a!==null)){showResult();}
+};
+$("restartBtn").onclick=()=>{current=0;answers.fill(null);renderQuestion();switchPage("page-question");};
+$("copyBtn").onclick=async()=>{
+  const score=calculateScore(),title=$("resTitle").textContent,desc=$("resDesc").textContent;
+  const content=`【对你担容忍度测试 2.0 PLUS】\n我的结果：${title}\n清醒边界指数：${score}/45\n${desc}\n你也来测测：`;
+  try{await navigator.clipboard.writeText(content);toast("结果文案已复制");}
+  catch(e){const ta=document.createElement("textarea");ta.value=content;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast("结果文案已复制");}catch(err){toast("复制失败，请手动复制");}ta.remove();}
+};
+</script>
+</body>
+</html>
